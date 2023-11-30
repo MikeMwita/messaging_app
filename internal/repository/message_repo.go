@@ -14,6 +14,18 @@ type repository struct {
 	db *sql.DB
 }
 
+func (r *repository) CreateTable() error {
+	_, err := r.db.Exec(`
+		CREATE TABLE IF NOT EXISTS messages (
+			id SERIAL PRIMARY KEY,
+			user_id INT,
+			time TIMESTAMP,
+			content TEXT
+		)
+	`)
+	return err
+}
+
 func (r *repository) GetMessages() ([]models.Message, error) {
 	rows, err := r.db.Query("select * from messages order by time")
 	if err != nil {
@@ -61,6 +73,7 @@ func (r *repository) InsertMessage(message models.Message) error {
 }
 
 // SeedMessagesFromCSV reads messages from a CSV file and inserts them into the database
+
 func (r *repository) SeedMessagesFromCSV(filepath string) error {
 	messages, err := readMessagesFromCSV(filepath)
 	if err != nil {
@@ -68,7 +81,7 @@ func (r *repository) SeedMessagesFromCSV(filepath string) error {
 	}
 
 	for _, message := range messages {
-		err := r.InsertMessage(message)
+		_, err := r.db.Exec("INSERT INTO messages (user_id, time, content) VALUES ($1, $2, $3)", message.UserID, message.Time, message.Content)
 		if err != nil {
 			return err
 		}
