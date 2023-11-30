@@ -8,4 +8,5 @@ type Repository interface {
 	GetUser(name string) (models.User, error)
 	InsertMessage(message models.Message) error
 	SeedMessagesFromCSV(filepath string) error
+	CreateTable() error
 }
