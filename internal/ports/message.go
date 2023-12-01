@@ -1,6 +1,9 @@
 package ports
 
-import "github.com/MikeMwita/messaging_app.git/internal/models"
+import (
+	"database/sql"
+	"github.com/MikeMwita/messaging_app.git/internal/models"
+)
 
 type Repository interface {
 	GetMessages() ([]models.Message, error)
@@ -9,4 +12,5 @@ type Repository interface {
 	InsertMessage(message models.Message) error
 	SeedMessagesFromCSV(filepath string) error
 	CreateTable() error
+	GetDB() *sql.DB
 }
