@@ -1,6 +1,5 @@
-To write a README file for your application, you can use the following template as a guide. You can modify it according to your needs and preferences. You can also refer to the web search results from my predefined internal tool `search_web` for more examples and tips on how to write a good README file.
 
-```markdown
+
 # Messaging App
 
 Messaging App is a simple web application that allows a team of agents to respond to customer inquiries in a streamlined fashion. It uses Go as the programming language, Gin as the web framework, and PostgreSQL as the database.
