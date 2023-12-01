@@ -12,7 +12,7 @@ paths:
       summary: Get all messages
       operationId: getMessages
       tags:
-        - Messages
+        - Messsages
       responses:
         '200':
           description: Successful response
