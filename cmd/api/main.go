@@ -33,7 +33,7 @@ func main() {
 	}
 
 	// Seed the database with messages from CSV
-	csvFilePath := "/home/mike/Downloads/GeneralistRails_Project_MessageData.csv"
+	csvFilePath := "GeneralistRails_Project_MessageData.csv"
 	err = repo.SeedMessagesFromCSV(csvFilePath)
 	if err != nil {
 		log.Fatal("Failed to seed the database:", err)
