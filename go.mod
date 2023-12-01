@@ -1,8 +1,11 @@
 module github.com/MikeMwita/messaging_app.git
 
-go 1.21rc2
+go 1.19
 
-require github.com/gin-gonic/gin v1.9.1
+require (
+	github.com/gin-gonic/gin v1.9.1
+	github.com/lib/pq v1.10.9
+)
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
