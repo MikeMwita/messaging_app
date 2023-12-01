@@ -5,8 +5,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// SetRoutes sets up the API routes
-
 func SetRoutes(r *gin.Engine, repo ports.Repository) {
 	messageHandler := NewMessageHandler(repo)
 
