@@ -65,7 +65,7 @@ func (r *repository) GetUser(name string) (models.User, error) {
 }
 
 func (r *repository) InsertMessage(message models.Message) error {
-	_, err := r.db.Exec("insert into messages (user_id, time, content) values (?, ?, ?)", message.UserID, message.Time, message.Content)
+	_, err := r.db.Exec("INSERT INTO messages (user_id, time, content) VALUES ($1, $2, $3)", message.UserID, message.Time, message.Content)
 	if err != nil {
 		return err
 	}
@@ -133,6 +133,10 @@ func readMessagesFromCSV(filepath string) ([]models.Message, error) {
 	}
 
 	return messages, nil
+}
+
+func (r *repository) GetDB() *sql.DB {
+	return r.db
 }
 
 func NewRepository(db *sql.DB) ports.Repository {
