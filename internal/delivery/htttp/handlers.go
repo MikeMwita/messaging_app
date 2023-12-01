@@ -1,6 +1,7 @@
 package htttp
 
 import (
+	"database/sql"
 	"github.com/MikeMwita/messaging_app.git/internal/models"
 	"github.com/MikeMwita/messaging_app.git/internal/ports"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,10 @@ import (
 
 type MessageHandler struct {
 	Repo ports.Repository
+}
+
+type Repository struct {
+	Db *sql.DB
 }
 
 // GetMessagesHandler handles GET requests to retrieve messages
@@ -61,6 +66,7 @@ func (h *MessageHandler) SendMessageHandler(c *gin.Context) {
 }
 
 // SimulateSendMessageHandler simulates sending a message
+
 func (h *MessageHandler) SimulateSendMessageHandler(c *gin.Context) {
 	var newMessage models.Message
 	if err := c.ShouldBindJSON(&newMessage); err != nil {
@@ -77,21 +83,34 @@ func (h *MessageHandler) SimulateSendMessageHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, newMessage)
 }
 
-// SimulateReceiveMessagesHandler simulates receiving multiple messages
-
 func (h *MessageHandler) SimulateReceiveMessagesHandler(c *gin.Context) {
+	messages := []models.Message{}
 
-	messages := []models.Message{
-		{UserID: 1, Content: "Hello, how can I help you?"},
-		{UserID: 2, Content: "I have a question about my loan approval."},
+	query := "SELECT user_id, content FROM messages"
+
+	rows, err := h.Repo.GetDB().Query(query)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query messages"})
+		return
 	}
+	defer rows.Close()
 
-	for _, message := range messages {
-		err := h.Repo.InsertMessage(message)
+	for rows.Next() {
+		message := models.Message{}
+
+		err := rows.Scan(&message.UserID, &message.Content)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert message"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to scan message"})
 			return
 		}
+
+		messages = append(messages, message)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read messages"})
+		return
 	}
 
 	c.JSON(http.StatusOK, messages)
