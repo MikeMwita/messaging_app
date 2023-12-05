@@ -2,7 +2,7 @@ package ports
 
 import (
 	"database/sql"
-	"github.com/MikeMwita/messaging_app.git/internal/models"
+	"github.com/MikeMwita/messaging_app/internal/models"
 )
 
 type Repository interface {
