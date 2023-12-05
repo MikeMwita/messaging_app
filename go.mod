@@ -1,4 +1,4 @@
-module github.com/MikeMwita/messaging_app.git
+module github.com/MikeMwita/messaging_app
 
 go 1.19
 
