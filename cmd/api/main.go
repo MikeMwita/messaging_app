@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/MikeMwita/messaging_app.git/internal/delivery/htttp"
-	"github.com/MikeMwita/messaging_app.git/internal/repository"
+	"github.com/MikeMwita/messaging_app/internal/delivery/htttp"
+	"github.com/MikeMwita/messaging_app/internal/repository"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"log"
@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	password := "1A5hhh3qsjQQdUA6IajljFTXoDQKEcwo"
+	password := os.Getenv("DB_PASSWORD")
 	dbConnectionString := os.Getenv("DB_CONNECTION_STRING")
 
 	if dbConnectionString == "" {
