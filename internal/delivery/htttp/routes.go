@@ -1,7 +1,7 @@
 package htttp
 
 import (
-	"github.com/MikeMwita/messaging_app.git/internal/ports"
+	"github.com/MikeMwita/messaging_app/internal/ports"
 	"github.com/gin-gonic/gin"
 )
 
