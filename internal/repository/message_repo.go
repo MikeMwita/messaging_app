@@ -3,8 +3,8 @@ package repository
 import (
 	"database/sql"
 	"encoding/csv"
-	"github.com/MikeMwita/messaging_app.git/internal/models"
-	"github.com/MikeMwita/messaging_app.git/internal/ports"
+	"github.com/MikeMwita/messaging_app/internal/models"
+	"github.com/MikeMwita/messaging_app/internal/ports"
 	"io"
 	"os"
 	"strconv"

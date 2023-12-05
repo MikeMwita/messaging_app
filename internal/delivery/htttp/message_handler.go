@@ -2,8 +2,8 @@ package htttp
 
 import (
 	"database/sql"
-	"github.com/MikeMwita/messaging_app.git/internal/models"
-	"github.com/MikeMwita/messaging_app.git/internal/ports"
+	"github.com/MikeMwita/messaging_app/internal/models"
+	"github.com/MikeMwita/messaging_app/internal/ports"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
