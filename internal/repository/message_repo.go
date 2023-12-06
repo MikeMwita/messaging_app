@@ -80,6 +80,18 @@ func (r *repository) SeedMessagesFromCSV(filepath string) error {
 		return err
 	}
 
+	// Check if messages already exist in the database
+	existingMessages, err := r.GetMessages()
+	if err != nil {
+		return err
+	}
+
+	// If messages already exist, do not insert them again
+	if len(existingMessages) > 0 {
+		return nil
+	}
+
+	// Insert messages into the database
 	for _, message := range messages {
 		_, err := r.db.Exec("INSERT INTO messages (user_id, time, content) VALUES ($1, $2, $3)", message.UserID, message.Time, message.Content)
 		if err != nil {
@@ -100,14 +112,25 @@ func readMessagesFromCSV(filepath string) ([]models.Message, error) {
 
 	reader := csv.NewReader(file)
 
+	// Skip the header
 	_, err = reader.Read()
 	if err != nil {
 		return nil, err
 	}
 
+	// Import lines from CSV
+	messages, err := importLines(reader)
+	if err != nil {
+		return nil, err
+	}
+
+	return messages, nil
+}
+
+// importLines reads lines from the CSV reader and parses them as Message structs
+func importLines(reader *csv.Reader) ([]models.Message, error) {
 	var messages []models.Message
 
-	// Loop over the records and parse them as Message structs
 	for {
 		record, err := reader.Read()
 		if err == io.EOF {
@@ -139,6 +162,6 @@ func (r *repository) GetDB() *sql.DB {
 	return r.db
 }
 
-func NewRepository(db *sql.DB) ports.Repository {
+func NewMessageRepository(db *sql.DB) ports.Repository {
 	return &repository{db: db}
 }
