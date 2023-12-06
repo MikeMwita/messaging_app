@@ -2,7 +2,7 @@ package htttp
 
 import (
 	"encoding/json"
-	"github.com/MikeMwita/messaging_app.git/internal/models"
+	"github.com/MikeMwita/messaging_app/internal/models"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 	"net/http"
